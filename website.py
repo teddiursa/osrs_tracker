@@ -83,9 +83,11 @@ def fetch_runecrafting_xp(username):
 
 # Determine current level
 def get_current_level(xp):
+    if xp < LEVEL_XP[1]:
+        return 1
     for level in range(1, len(LEVEL_XP)):
         if xp < LEVEL_XP[level]:
-            return level - 1
+            return level
     return 99
 
 # Format numbers with commas
