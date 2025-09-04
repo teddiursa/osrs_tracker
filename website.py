@@ -9,11 +9,8 @@ USERNAME = "gim_axolotl"
 DEFAULT_XP_RATE = 14816  # XP per hour (estimated from 8/28 1:39 PM PT → 9/2 12:01 AM PT, 92→94)
 
 # XP table for OSRS levels 1–99
-LEVEL_XP = [0]
-xp = 0
-for level in range(1, 100):
-    xp += int(level + 300 * 2 ** (level / 7.0))
-    LEVEL_XP.append(xp // 4)
+with open("level_xp.json", "r") as f:
+    LEVEL_XP = json.load(f)
 
 # Themed HTML template with commas and countdown
 template = """
