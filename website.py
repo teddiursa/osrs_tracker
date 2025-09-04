@@ -18,7 +18,61 @@ if len(LEVEL_XP) < 100:
     LEVEL_XP.append(14391160)  # XP for level 100 (virtual cap)
 
 # Themed HTML template with commas and countdown
-template = """[UNCHANGED HTML TEMPLATE YOU ALREADY HAVE]"""  # Keep your current template here
+template = """
+<!DOCTYPE html>
+<html>
+<head>
+    <title>How Close GIM_Axolotl is to Maxing Runecrafting</title>
+    <style>
+        body { background: #121212 url('https://oldschool.runescape.wiki/images/thumb/Astral_altar.png/640px-Astral_altar.png') no-repeat center top fixed; background-size: cover; color: #f5f5f5; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
+        .overlay { background: rgba(0, 0, 0, 0.7); min-height: 100vh; padding: 40px; }
+        h1 { font-size: 3.5em; margin-bottom: 10px; color: #ffd700; text-shadow: 2px 2px 5px black; }
+        h2 { font-size: 2.2em; margin-top: 30px; color: #87cefa; text-shadow: 1px 1px 3px black; }
+        p { font-size: 1.5em; margin: 10px 0; }
+        .progress-container { width: 80%; margin: 30px auto; background: #333; border-radius: 15px; overflow: hidden; height: 55px; box-shadow: 0 0 10px #000; }
+        .progress-bar { height: 55px; background: linear-gradient(to right, #00ff99, #4caf50); text-align: center; color: black; font-size: 1.5em; font-weight: bold; line-height: 55px; }
+        img.skill-icon { width: 72px; height: 72px; vertical-align: middle; margin-right: 10px; }
+        img.cape-icon { width: 100px; height: 100px; margin-top: 20px; }
+        .highlight { color: #00ffcc; font-weight: bold; }
+    </style>
+</head>
+<body>
+<div class="overlay">
+    <h1>How Close Vinny is to Maxing Runecrafting</h1>
+    <h2><img src="https://oldschool.runescape.wiki/images/Runecraft_icon.png" class="skill-icon"> Tracking {{ username }}</h2>
+
+    {% if xp is not none %}
+        <p>Vinny currently has <span class="highlight">{{ xp | format_comma }}</span> Runecrafting XP.</p>
+        <p>He needs <span class="highlight">{{ remaining | format_comma }}</span> XP to reach <span class="highlight">99 Runecrafting</span>.</p>
+
+        <div class="progress-container">
+            <div class="progress-bar" style="width: {{ percent }}%">{{ percent }}%</div>
+        </div>
+
+        <h2>Next Level Progress</h2>
+        <p>Current Level: <span class="highlight">{{ current_level }}</span></p>
+        <p>XP to Next Level ({{ next_level }}): <span class="highlight">{{ xp_to_next | format_comma }}</span></p>
+
+        <div class="progress-container">
+            <div class="progress-bar" style="width: {{ next_percent }}%">{{ next_percent }}%</div>
+        </div>
+
+        <h2>Countdown Estimate</h2>
+        <p>Based on recent gains (<span class="highlight">92 → 94</span> from <span class="highlight">Aug 28, 2025 1:39 PM PT</span> to <span class="highlight">Sep 2, 2025 12:01 AM PT</span>), Vinny averaged <span class="highlight">{{ xp_rate | format_comma }}</span> XP/hour.</p>
+        <p>At that pace, maxing 99 Runecrafting will take about <span class="highlight">{{ hours_left | format_comma }}</span> hours (~<span class="highlight">{{ days_left | format_comma }}</span> days).</p>
+
+        {% if current_level == 99 %}
+            <h2>🎉 Congratulations, Vinny! 🎉</h2>
+            <img src="https://oldschool.runescape.wiki/images/Runecraft_cape_(t)_icon.png" class="cape-icon">
+            <p>You’ve achieved the <span class="highlight">99 Runecrafting</span> milestone!</p>
+        {% endif %}
+    {% else %}
+        <p>Could not fetch data for {{ username }}.</p>
+    {% endif %}
+</div>
+</body>
+</html>
+"""
 
 # Fetch XP from OSRS hiscores
 def fetch_runecrafting_xp(username):
