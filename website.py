@@ -78,7 +78,7 @@ def fetch_runecrafting_xp(username):
     lines = response.text.split("\n")
     if len(lines) < 21:
         return None
-    rc_data = lines[20].split(",")  # Correct index for Runecrafting
+    rc_data = lines[21].split(",") 
     return int(rc_data[2])
 
 # Determine current level
