@@ -83,7 +83,7 @@ def fetch_runecrafting_xp(username):
 
 # Determine current level
 def get_current_level(xp):
-    for level in range(1, 100):
+    for level in range(1, len(LEVEL_XP)):
         if xp < LEVEL_XP[level]:
             return level - 1
     return 99
@@ -111,8 +111,12 @@ def index():
         percent = min(100, round((xp / XP_99) * 100, 2))
         current_level = get_current_level(xp)
         next_level = min(99, current_level + 1)
-        xp_to_next = max(0, LEVEL_XP[next_level] - xp)
-        next_percent = round(((xp - LEVEL_XP[current_level]) / (LEVEL_XP[next_level] - LEVEL_XP[current_level])) * 100, 2)
+        if next_level >= len(LEVEL_XP):
+            xp_to_next = 0
+            next_percent = 100.0
+        else:
+            xp_to_next = max(0, LEVEL_XP[next_level] - xp)
+            next_percent = round(((xp - LEVEL_XP[current_level]) / (LEVEL_XP[next_level] - LEVEL_XP[current_level])) * 100, 2)
         if DEFAULT_XP_RATE > 0:
             hours_left = round(remaining / DEFAULT_XP_RATE, 2)
             days_left = round(hours_left / 24, 2)
