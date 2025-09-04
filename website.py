@@ -71,30 +71,26 @@ template = """
 </body>
 </html>
 """
-
-
+# Fetch XP from OSRS hiscores
 def fetch_runecrafting_xp(username):
     url = f"https://secure.runescape.com/m=hiscore_oldschool/index_lite.ws?player={username}"
     response = requests.get(url)
     if response.status_code != 200:
         return None
-
     lines = response.text.split("\n")
     if len(lines) < 21:
         return None
-
     rc_data = lines[21].split(",")
-    xp = int(rc_data[2])
-    return xp
+    return int(rc_data[2])
 
-
+# Determine current level
 def get_current_level(xp):
     for level in range(1, 100):
         if xp < LEVEL_XP[level]:
             return level - 1
     return 99
 
-# Custom filter for commas
+# Format numbers with commas
 def format_comma(value):
     if isinstance(value, int):
         return f"{value:,}"
@@ -106,28 +102,19 @@ def format_comma(value):
 
 app.jinja_env.filters['format_comma'] = format_comma
 
-
+# Main route
 @app.route("/", methods=["GET"])
 def index():
     xp = fetch_runecrafting_xp(USERNAME)
-    remaining = None
-    percent = 0
-    current_level = None
-    next_level = None
-    xp_to_next = None
-    next_percent = 0
-    hours_left = None
-    days_left = None
+    remaining = percent = current_level = next_level = xp_to_next = next_percent = hours_left = days_left = None
 
     if xp is not None:
         remaining = max(0, XP_99 - xp)
         percent = min(100, round((xp / XP_99) * 100, 2))
-
         current_level = get_current_level(xp)
         next_level = min(99, current_level + 1)
         xp_to_next = max(0, LEVEL_XP[next_level] - xp)
         next_percent = round(((xp - LEVEL_XP[current_level]) / (LEVEL_XP[next_level] - LEVEL_XP[current_level])) * 100, 2)
-
         if DEFAULT_XP_RATE > 0:
             hours_left = round(remaining / DEFAULT_XP_RATE, 2)
             days_left = round(hours_left / 24, 2)
@@ -146,6 +133,5 @@ def index():
         days_left=days_left
     )
 
-
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=False)
