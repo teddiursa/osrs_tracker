@@ -20,7 +20,7 @@ template = """
 <!DOCTYPE html>
 <html>
 <head>
-    <title>How Close Vinny is to Maxing Runecrafting</title>
+    <title>How Close GIM_Axolotl is to Maxing Runecrafting</title>
     <style>
         body { background: #121212 url('https://oldschool.runescape.wiki/images/thumb/Astral_altar.png/640px-Astral_altar.png') no-repeat center top fixed; background-size: cover; color: #f5f5f5; font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 0; }
         .overlay { background: rgba(0, 0, 0, 0.7); min-height: 100vh; padding: 40px; }
@@ -41,7 +41,7 @@ template = """
 
     {% if xp is not none %}
         <p>Vinny currently has <span class="highlight">{{ xp | format_comma }}</span> Runecrafting XP.</p>
-        <p>He needs <span class="highlight">{{ remaining | format_comma }}</span> XP to reach the legendary <span class="highlight">99 Runecrafting</span>.</p>
+        <p>He needs <span class="highlight">{{ remaining | format_comma }}</span> XP to reach <span class="highlight">99 Runecrafting</span>.</p>
 
         <div class="progress-container">
             <div class="progress-bar" style="width: {{ percent }}%">{{ percent }}%</div>
@@ -62,7 +62,7 @@ template = """
         {% if current_level == 99 %}
             <h2>🎉 Congratulations, Vinny! 🎉</h2>
             <img src="https://oldschool.runescape.wiki/images/Runecraft_cape_(t)_icon.png" class="cape-icon">
-            <p>You’ve achieved the ultimate <span class="highlight">99 Runecrafting</span> milestone!</p>
+            <p>You’ve achieved the <span class="highlight">99 Runecrafting</span> milestone!</p>
         {% endif %}
     {% else %}
         <p>Could not fetch data for {{ username }}.</p>
